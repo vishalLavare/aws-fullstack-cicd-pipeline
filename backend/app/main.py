@@ -1,16 +1,26 @@
+from contextlib import asynccontextmanager
+from datetime import datetime
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from datetime import datetime
 
 try:
     from app.routes import router
 except ModuleNotFoundError:
     from routes import router
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("=====================================")
+    print(" FastAPI Application Started")
+    print(" Environment : Production")
+    print("=====================================")
+    yield
+
 app = FastAPI(
     title="Production CI/CD FastAPI App",
     description="Automated deployment project built with GitHub Actions, Docker, Amazon ECR, Docker, and EC2.",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # ==========================================================
@@ -22,7 +32,7 @@ origins = [
     "http://localhost:5173",
     "http://dpop0vbtqm0t3.cloudfront.net",
     "https://dpop0vbtqm0t3.cloudfront.net",
-    "http://demo-1555652099.ap-south-1.elb.amazonaws.com:8000",
+    "http://demo-1555652099.us-east-1.elb.amazonaws.com:8000",
 ]
 
 app.add_middleware(
@@ -65,13 +75,6 @@ def health():
         "environment": "production"
     }
 
-# ==========================================================
-# Startup Event
-# ==========================================================
-
-@app.on_event("startup")
-async def startup_event():
-    print("=====================================")
-    print(" FastAPI Application Started")
-    print(" Environment : Production")
-    print("=====================================")
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

@@ -19,7 +19,7 @@ jobs:
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }}
-          aws configure set default.region ap-south-1
+          aws configure set default.region us-east-1
 
       # Step 3: Clean install dependencies (adapted to frontend folder)
       - name: Clean install dependencies
@@ -31,7 +31,7 @@ jobs:
       # Step 4: Create environment file for Vite inside frontend directory
       - name: Create environment file
         run: |
-          echo "VITE_API_BASE_URL=http://demo-1555652099.ap-south-1.elb.amazonaws.com:8000" > frontend/.env.local
+          echo "VITE_API_BASE_URL=http://demo-1555652099.us-east-1.elb.amazonaws.com:8000" > frontend/.env.local
 
       # Step 5: Build the app inside frontend directory
       - name: Build Frontend app

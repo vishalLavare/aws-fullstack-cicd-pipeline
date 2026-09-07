@@ -142,7 +142,7 @@ function App() {
             className="config-input"
             value={backendInput}
             onChange={(e) => setBackendInput(e.target.value)}
-            placeholder="http://demo-1555652099.ap-south-1.elb.amazonaws.com:8000"
+            placeholder="http://demo-1555652099.us-east-1.elb.amazonaws.com:8000"
           />
           <button type="submit" className="btn-save">
             Save
